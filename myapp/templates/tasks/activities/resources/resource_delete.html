@@ -1,0 +1,22 @@
+{% block content %}
+
+<!-- Formulario del modal para eliminar actividades -->
+{% if resource %}
+<form id="DeleteActivityForm" action="{% url 'activity_resources_delete' resource.id %}" method="POST">
+    <!-- <p>Formulario para la creacion de las actividades de los proyectos</p> -->
+    {{error}}
+    {% csrf_token %}
+    <input type="hidden" id="id_stage" name="id_stage" value="">
+        <div class="text-center">
+            <h5 class="card-title">Eliminar Contenido Multimedia</h5>
+            <p class="card-text">¿Seguro que quieres eliminar el recurso multimedia --{{resource.title_content}}-- de la lista?</p>
+        </div>
+    <br>
+    <div class="text-center">
+        <button class="btn btn-danger">Eliminar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+{% endif %}
+{% endblock %}

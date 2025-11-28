@@ -1,0 +1,39 @@
+{% block content %}
+
+
+{% if resource %}
+<!-- Tabla del modal -->
+<form method="POST" action="" id="addActivityResourcesForm" hx-target="modal-body-detail-resource" hx-swap="outerHTML">
+    {{error}}
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group form-group-default">
+                <label>Titulo</label>
+                <p>{{resource.title_content}}</p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group form-group-default">
+                <label>Descripcion</label>
+                <p>{{resource.description}}</p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group form-group-default">
+                <label>Link del contenido multimedia</label>
+                <a href="{{resource.link_content}}" type="button" class="btn btn-default" target="_blank">
+                    <span>
+                        <i class="fa fa-link"></i>
+                        Link Documento
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends 'layouts/principalMenu.html' %}
+
+{% block content %}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Proyecto</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="{% url 'index' %}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'projects' %}">Proyectos</a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'project_info' project.id %}">Informacion proyecto</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary bg-primary-gradient">
+                <div class="card-header">
+                    <div class="card-title">Informacion Proyecto</div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>Titulo</h3>
+                                    </td>
+                                    <td>
+                                        <h3>Tema de Investigación</h3>
+                                    </td>
+                                    <td>
+                                        <h3>Horario de Reunion</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{project.name}}</td>
+                                    <td>{{project.tema_investigacion}}</td>
+                                    <td>{{project.horario_reunion}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3>Integrantges</h3>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>Nombre</h3>
+                                    </td>
+                                    <td>
+                                        <h3>Codigo estudiante</h3>
+                                    </td>
+                                    <td>
+                                        <h3>Correo institucional</h3>
+                                    </td>
+                                </tr>
+                                {% for integrante in integrantes %}
+                                <tr>
+                                    <td>{{integrante.user.first_name}} {{integrante.user.last_name}}
+                                    </td>
+                                    <td>{{integrante.student_code}}</td>
+                                    <td>{{integrante.user.email}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-primary bg-primary-gradient">
+                <div class="card-body">
+                    <h5 class="card-title">Progreso general</h5>
+                    <div id="task-complete" class="chart-circle mt-4 mb-3"></div>
+                    <span id="task-complete-value" style="display:none;">{{progr_general}}</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body pd-0">
+                    <div class="d-flex">
+                        <div class="avatar">
+                            <i class="fa fa-tasks" style="font-size:25px;"></i>
+                        </div>
+                        <div class="flex-1 pt-1 ml-2">
+                            <!-- <h6 class="fw-bold mb-1">Pendientes</h6> -->
+                            <small class="text-muted">Tareas Pendientes</small>
+                        </div>
+                        <div class="d-flex ml-auto align-items-center">
+                            <h2 class="text-warning fw-bold">{{stats_task.earring}}</h2>
+                        </div>
+                    </div>
+                    <div class="separator-dashed"></div>
+                    <div class="d-flex">
+                        <div class="avatar">
+                            <i class="far fa-clock" style="font-size:25px;"></i>
+                        </div>
+                        <div class="flex-1 pt-1 ml-2">
+                            <!-- <h6 class="fw-bold mb-1">Pendientes</h6> -->
+                            <small class="text-muted">Tareas En proceso</small>
+                        </div>
+                        <div class="d-flex ml-auto align-items-center">
+                            <h2 class="text-primary fw-bold">{{stats_task.in_progresss}}</h2>
+                        </div>
+                    </div>
+                    <div class="separator-dashed"></div>
+                    <div class="d-flex">
+                        <div class="avatar">
+                            <i class="fa fa-check-square" style="font-size:25px;"></i>
+                        </div>
+                        <div class="flex-1 pt-1 ml-2">
+                            <!-- <h6 class="fw-bold mb-1">Completadas</h6> -->
+                            <small class="text-muted">Tareas Completadas</small>
+                        </div>
+                        <div class="d-flex ml-auto align-items-center">
+                            <h2 class="text-success fw-bold">{{stats_task.completed}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title">Etapas del Proyecto</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="add-row-stage" class="display table table-striped table-hover" cellspacing="0"
+                            width="100%">
+                            <thead>
+                                <tr>
+                                    <td>id</td>
+                                    <td>Etapa</td>
+                                    <td>Progreso</td>
+                                    <td style="width: 10%;">Actividades</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for stage_list in etapas_stats %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{stage_list.stage.title}}</td>
+                                    <td>
+                                        <div class="progress-status">
+                                            <span class="text-muted">Actividades Completas</span>
+                                            <span class="text-muted fw-bold"> {{stage_list.progress_stage}}%</span>
+                                        </div>
+                                        <div class="progress" style="height: 13px;">
+                                            <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated"
+                                                role="progressbar"
+                                                data-progress="{{ stage_list.progress_stage|default:0 }}"
+                                                aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Activities
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                {% for activity in activities %}
+                                                {% if activity.etapa_id == stage_list.stage.id %}
+                                                <a class="dropdown-item"
+                                                    href="{% url 'project_activities_tasks' project.id activity.id %}">{{activity.title}}
+                                                </a>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h5 class="card-title">Documentos del Proyecto</h5>
+                        <button class="btn btn-primary btn-round ml-auto" data-toggle="modal"
+                            data-target="#ModalAddDocument" data-idproject="{{project.id}}"
+                            data-nameproject="{{project.name}}">
+                            <i class="fa fa-plus"></i>
+                            Agregar Documento
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Modal Add Document-->
+                    {% include "projects/documents/document_add.html" %}
+                    <!-- Modal edit Document-->
+                    {% include "projects/documents/document_edit.html" %}
+                    <!-- Modal detail Document-->
+                    {% include "projects/documents/document_detail.html" %}
+                    <!-- Modal delete Document-->
+                    {% include "projects/documents/document_delete.html" %}
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="add-document" class="display table table-striped table-hover" cellspacing="0"
+                            width="100%">
+                            <thead>
+                                <tr>
+                                    <td>id</td>
+                                    <td>Titulo Doc</td>
+                                    <td>Fecha Creacion</td>
+                                    <td style="width: 10%;">acciones</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for document in documents %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ document.title_doc }}</td>
+                                    <td>{{ document.date_uploaded }}</td>
+                                    <td>
+                                        <div class="form-button-action">
+                                            <button type="button" data-toggle="modal" title="" target="_blank"
+                                                class="btn btn-link btn-info" data-original-title="Detalles"
+                                                data-target="#ModalDetailDocument"
+                                                hx-get="{% url 'project_document_detail' id_document=document.id %}"
+                                                hx-target="#modal-body-detail-document" hx-trigger="click">
+                                                <i class="fa fa-info"></i>
+                                            </button>
+                                            <button type="button" data-toggle="modal" title="" target="_blank"
+                                                class="btn btn-link btn-warning btn-lg"
+                                                data-original-title="Editar Documento" data-target="#ModalEditDocument"
+                                                hx-get="{% url 'project_document_edit' id_document=document.id %}"
+                                                hx-target="#modal-body-edit-document" hx-trigger="click">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <a type="button" target="_blank" data-toggle="tooltip" title=""
+                                                class="btn btn-link btn-primary btn-lg" data-original-title="Ver"
+                                                href="{{document.upload_path}}">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-link btn-danger btn-eliminar-dato"
+                                                data-original-title="Remove" title="" target="_blank"
+                                                data-id="{{document.id}}">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".progress-bar").forEach(function (bar) {
+            let progress = bar.dataset.progress || 0;
+            bar.style.width = progress + "%";
+            bar.setAttribute("aria-valuenow", progress);
+            bar.setAttribute("data-original-title", progress + "%");
+        });
+    });
+
+    $(document).ready(function() {
+
+    // Delegación de eventos → funciona incluso si la tabla se recarga dinámicamente
+    $(document).on('click', '.btn-eliminar-dato', function(e) {
+        e.preventDefault();
+
+        let datoId = $(this).data('id');
+        let fila = $(this).closest('tr'); // Guarda la fila para eliminarla después
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: `/projects/${datoId}/delete/document/`,
+                    type: 'POST',
+                    headers: { 'X-CSRFToken': getCSRFToken() },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Eliminado',
+                                text: data.message,
+                                icon: 'success',
+                                showConfirmButton: false,
+                            });
+                            // Si no usas DataTable → eliminar fila manualmente
+                            setTimeout(function() {
+                                location.reload();
+                            },3000);
+                            
+                        } else {
+                            Swal.fire('Error', data.error || 'Error al eliminar el registro.', 'error');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        Swal.fire('Error', 'Error en la petición AJAX.', 'error');
+                    }
+                });
+
+            }
+        });
+    });
+
+    // Obtener token CSRF de Django
+    function getCSRFToken() {
+        return $('[name=csrfmiddlewaretoken]').val();
+    }
+});
+
+</script>
+{% endblock %}

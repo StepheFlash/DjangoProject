@@ -1,0 +1,126 @@
+{% extends 'layouts/principalMenu.html' %}
+
+{% block content %}
+
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">Proyecto</h4>
+        <ul class="breadcrumbs">
+            <li class="nav-home">
+                <a href="{% url 'index' %}">
+                    <i class="flaticon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'projects' %}">Proyectos</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">Listado de proyectos</h4>
+                        {% if user.is_superuser %}
+                        <button class="btn btn-primary btn-round ml-auto" data-toggle="modal"
+                            data-target="#addRowModalProject">
+                            <i class="fa fa-plus"></i>
+                            Agregar proyectos
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Modal para adicionar proyectos -->
+                    {% include "projects/create_project.html" %}
+
+                    <!-- Modal Editar Proyectos -->
+                    <div class="modal fade" id="addRowModalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <span class="fw-mediumbold">
+                                            Editar</span>
+                                        <span class="fw-light">
+                                            Proyecto
+                                        </span>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="modal-body-project-edit">
+                                    <p class="small">Formulario para editar proyectos...</p>
+                                </div>
+                                <div class="modal-footer no-bd">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal para ver los detalles del Proyectos -->
+                    {% include "projects/project_detail.html" %}
+
+                    <!-- Modal para agregar integrantes al proyectos -->
+                    {% include "projects/project_members.html" %}
+
+                    <div class="table-responsive">
+                        <table id="add-row-project" class="display table table-striped table-hover" cellspacing="0"
+                            width="100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titulo Proyectos</th>
+                                    <th>Tema Investigación</th>
+                                    <th>Horario reuniones</th>
+                                    <th>Integrantes Proyecto</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <!-- Cuerpo de la tabla contruida por ajax en datatables.js -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document, addEventListener("DOMContentLoaded", function () {
+        //Funcion para cerrar el modal despues de agregar un proyecto y muestra un mensaje de exito
+        $('#addProjectsForm').on('submit', function (event) {
+            event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+            let formData = $(this).serialize(); // Captura los datos del formulario
+            let table = $('#add-row-project').DataTable();
+
+            $.ajax({
+                url: '{% url "create_project" %}', // URL de tu vista de Django para crear el evento
+                type: 'POST',
+                data: formData,
+
+                success: function (response) {
+                    // Cierra el modal después de una respuesta exitosa
+                    $('#addRowModalProject').modal('hide');
+                    $('#addProjectsForm')[0].reset();
+
+                    table.ajax.reload(null, false);
+                    swal("¡Éxito!", response.message, "success");
+                },
+                error: function (error) {
+                    swal("Ocurrió un error en el evento:", error);
+                }
+            });
+        });
+    });
+
+
+</script>
+
+{% endblock %}
