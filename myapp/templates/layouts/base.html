@@ -38,7 +38,7 @@
         <div class="logo-header" data-background-color="blue">
             
             <a href="{% url 'home' %}" class="logo">
-                <img src="{% static '/assets/img/logo/favicon.svg' %}" alt="navbar brand" class="navbar-brand">
+                <img src="{% static 'assets/img/Logo/favicon.svg' %}" alt="navbar brand" class="navbar-brand">
             </a>
             <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
@@ -70,18 +70,18 @@
                         </div>
                     </form>
                 </div> -->
-                <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                    <li class="navbar-nav">
-                        <a class="nav-link active" href="{% url 'home' %}">Home</a> 
+                <ul class="nav nav-line nav-color-secondary justify-content-end" style="border-bottom:0px ;">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}" style="color: aliceblue;">Inicio</a> 
                      </li>
-                     <!-- <li class="navbar-nav">
-                         <a class="nav-link active" href="{# {% url 'about' %} #}">About</a>
-                     </li> -->
-                     <li class="navbar-nav">
-                         <a class="nav-link active" href="{% url 'login' %}">Login</a>
+                     <li class="nav-item">
+                         <a class="nav-link active" href="{% url 'about' %}" style="color: aliceblue;">Objetivos</a>
                      </li>
-                     <li class="navbar-nav">
-                         <a class="nav-link active" href="{% url 'registro' %}">Registro</a>
+                     <li class="nav-item">
+                         <a class="nav-link active" href="{% url 'login' %}" style="color: aliceblue;">Login</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link active" href="{% url 'registro' %}" style="color: red;">Registro</a>
                      </li>
          
                       <!-- <li>
