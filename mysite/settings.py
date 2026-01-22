@@ -93,62 +93,22 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('DB_NAME', 'projectdb'),
-#         'USER': os.environ.get('DB_USER', 'postgres'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', 'P4l4c10s'),
-#         'HOST': os.environ.get('DB_HOST', 'localhost'),
-#         'PORT': os.environ.get('DB_PORT', '5432'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'projectdb'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'P4l4c10s'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+    }
+}
 
 # DATABASES = {
 #     'default': dj_database_url.config(
 #         default=os.environ.get('DATABASE_URL')
 #     )
 # }
-
-# Database configuration
-# For Render: use DATABASE_URL environment variable
-# For local development: use individual DB_* variables
-
-if 'DATABASE_URL' in os.environ:
-    # Production: Parse DATABASE_URL (mysql://user:pass@host:port/dbname)
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
-    # For MySQL, add OPTIONS
-    if 'mysql' in os.environ.get('DATABASE_URL', '').lower():
-        DATABASES['default']['OPTIONS'] = {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        }
-else:
-    # Local development: use individual environment variables
-    db_engine = os.environ.get('DB_ENGINE', 'django.db.backends.mysql')
-    DATABASES = {
-        'default': {
-            'ENGINE': db_engine,
-            'NAME': os.environ.get('DB_NAME', 'projectdb'),
-            'USER': os.environ.get('DB_USER', 'root'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-            'HOST': os.environ.get('DB_HOST', 'localhost'),
-            'PORT': os.environ.get('DB_PORT', '3306'),
-        }
-    }
-    # Add MySQL options if using MySQL
-    if 'mysql' in db_engine.lower():
-        DATABASES['default']['OPTIONS'] = {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        }
-    
 
 
 # Password validation
