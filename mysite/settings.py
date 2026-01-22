@@ -108,30 +108,9 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # Use DATABASE_URL for Railway deployment
-# Try public URL first, then private, then local fallback
-db_url = (
-    os.environ.get('DATABASE_PUBLIC_URL') or 
-    os.environ.get('DATABASE_URL') or 
-    None
-)
-
-if db_url:
-    # Parse the database URL
-    DATABASES = {
-        'default': dj_database_url.config(default=db_url)
-    }
-else:
-    # Local development fallback
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME', 'projectdb'),
-            'USER': os.environ.get('DB_USER', 'postgres'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', 'P4l4c10s'),
-            'HOST': os.environ.get('DB_HOST', 'localhost'),
-            'PORT': os.environ.get('DB_PORT', '5432'),
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 
 # Password validation
