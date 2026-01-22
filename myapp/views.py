@@ -290,13 +290,13 @@ def activities_json(request):
 
 @login_required
 def projects_json(request):
-    if request.user.is_superuser:
-        projects = Project.objects.prefetch_related("integrantes__user").all()
-    else:
-        projects = Project.objects.prefetch_related("integrantes__user").filter(
-            integrantes__user=request.user
-        )
-    
+    # if request.user.is_superuser:
+    #     projects = Project.objects.prefetch_related("integrantes__user").all()
+    # else:
+    #     projects = Project.objects.prefetch_related("integrantes__user").filter(
+    #         integrantes__user=request.user
+    #     )
+    projects = Project.objects.prefetch_related("integrantes__user").all()
     data = []
     for project in projects:
         integrantes = "; ".join([
