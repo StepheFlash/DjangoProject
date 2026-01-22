@@ -112,22 +112,6 @@ DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
-# if os.environ.get('DATABASE_URL'):
-#     DATABASES = {
-#         'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': os.environ.get('DB_NAME', 'projectdb'),
-#             'USER': os.environ.get('DB_USER', 'postgres'),
-#             'PASSWORD': os.environ.get('DB_PASSWORD', 'P4l4c10s'),
-#             'HOST': os.environ.get('DB_HOST', 'localhost'),
-#             'PORT': os.environ.get('DB_PORT', '5432'),
-#         }
-#   }
-
 
 
 # Password validation
