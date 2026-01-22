@@ -49,7 +49,7 @@ class Document(models.Model):
 
 #Tabla estapas(plantilla)
 class Stage(models.Model):
-    title = models.CharField()
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -58,7 +58,7 @@ class Stage(models.Model):
 #Tabla actividades(plantilla)
 class Activity(models.Model):
     etapa = models.ForeignKey(Stage, on_delete=models.CASCADE)
-    title = models.CharField()
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -75,7 +75,7 @@ class Task(models.Model):
     #Datos propios de la tabla
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    status = models.CharField(default = 'Pendiente')
+    status = models.CharField(max_length=20, default='Pendiente')
     date_created = models.DateTimeField(default=timezone.now)
     date_completed = models.DateTimeField(null=True,blank=True)
     feedback = models.TextField(blank=True)
