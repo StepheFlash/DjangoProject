@@ -31,8 +31,7 @@ DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # ALLOWED_HOSTS configuration
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
+    'djangoproject-production-a73a.up.railway.app',
 ]
 
 # Railway external hostname
