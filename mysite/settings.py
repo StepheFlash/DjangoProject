@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-reccyn-1*wkym2)07=1p7!_^9dfe09_cr_2+2+htu97mo%__hz'
+# SECRET_KEY = 'django-insecure-reccyn-1*wkym2)07=1p7!_^9dfe09_cr_2+2+htu97mo%__hz'
 
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
@@ -65,8 +65,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
-    'drf_yasg', # Documentacion de Swagger
-    'myapp', # Añade esta línea a la lista de aplicaciones instaladas
+    'drf_yasg',  # Documentacion de Swagger
+    'myapp',  # Añade esta línea a la lista de aplicaciones instaladas
 ]
 
 MIDDLEWARE = [
@@ -105,26 +105,15 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # Use DATABASE_URL for Railway deployment
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-}
 
-# if os.environ.get('DATABASE_URL'):
-#     DATABASES = {
-#         'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-#     }
-# else:
-#     # Local development fallback
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': os.environ.get('DB_NAME', 'projectdb'),
-#             'USER': os.environ.get('DB_USER', 'postgres'),
-#             'PASSWORD': os.environ.get('DB_PASSWORD', 'P4l4c10s'),
-#             'HOST': os.environ.get('DB_HOST', 'localhost'),
-#             'PORT': os.environ.get('DB_PORT', '5432'),
-#         }
-#     }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+        engine='django.db.backends.postgresql',
+    )
+}
 
 
 # Password validation
