@@ -35,6 +35,11 @@ ALLOWED_HOSTS = [
     'djangoproject-production-a73a.up.railway.app',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://*',
+    'https://djangoproject-production-a73a.up.railway.app',
+]
+
 # Railway external hostname
 RAILWAY_EXTERNAL_HOSTNAME = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
 if RAILWAY_EXTERNAL_HOSTNAME:
