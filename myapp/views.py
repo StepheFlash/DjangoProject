@@ -427,7 +427,7 @@ def content_planning_project(request):
     })
 
 def content_validation(request):
-    stage = Stage.objects.get(id=3)
+    stage = Stage.objects.get(id=4)
     activities = Activity.objects.filter(etapa_id=4).order_by("id")
     
     return render(request, 'content/content_guide.html',{
@@ -437,8 +437,8 @@ def content_validation(request):
     })
 
 def content_development(request):
-    stage = Stage.objects.get(id=4)
-    activities = Activity.objects.filter(etapa_id=3).order_by("id")
+    stage = Stage.objects.get(id=5)
+    activities = Activity.objects.filter(etapa_id=5).order_by("id")
     
     return render(request, 'content/content_guide.html',{
         'activities':activities,
@@ -447,8 +447,8 @@ def content_development(request):
     })
 
 def content_systemic_review(request):
-    stage = Stage.objects.get(id=5)
-    activities = Activity.objects.filter(etapa_id=3).order_by("id")
+    stage = Stage.objects.get(id=6)
+    activities = Activity.objects.filter(etapa_id=6).order_by("id")
     
     return render(request, 'content/content_guide.html',{
         'activities':activities,
@@ -458,8 +458,8 @@ def content_systemic_review(request):
 
 
 def content_subtantiation(request):    
-    stage = Stage.objects.get(id=6)
-    activities = Activity.objects.filter(etapa_id=5).order_by("id")
+    stage = Stage.objects.get(id=7)
+    activities = Activity.objects.filter(etapa_id=7).order_by("id")
     
     return render(request, 'content/content_guide.html',{
         'activities':activities,
