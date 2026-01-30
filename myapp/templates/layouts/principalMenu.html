@@ -79,7 +79,10 @@
 								<i class="fa fa-search"></i>
 							</a>
 						</li>
-						<li class="nav-item dropdown hidden-caret">
+						<!-- 
+						***************Boton de menu de acceso  rapido***************
+						-->
+						<!-- <li class="nav-item dropdown hidden-caret">
 							<a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
 								<i class="fas fa-layer-group"></i>
 							</a>
@@ -131,7 +134,7 @@
 									</div>
 								</div>
 							</div>
-						</li>
+						</li> -->
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
 								aria-expanded="false">
@@ -326,13 +329,13 @@
 	<script src="{% static '/assets/js/demo.js' %}"></script> -->
 	<script>
 		Circles.create({
-			id: 'circles-1',
+			id: 'circles-task-pending',
 			radius: 45,
 			value: 60,
 			maxValue: 100,
 			width: 7,
-			text: 5,
-			colors: ['#f1f1f1', '#FF9E27'],
+			text: parseInt(document.getElementById('task-pending').textContent) || '0',
+			colors: ['#ffad46  ', '#ffad46 '],
 			duration: 400,
 			wrpClass: 'circles-wrp',
 			textClass: 'circles-text',
@@ -341,13 +344,13 @@
 		})
 
 		Circles.create({
-			id: 'circles-2',
+			id: 'circles-task-in-progress',
 			radius: 45,
 			value: 70,
 			maxValue: 100,
 			width: 7,
-			text: 36,
-			colors: ['#f1f1f1', '#2BB930'],
+			text: parseInt(document.getElementById('task-inprogress').textContent) || '0',
+			colors: ['#1572e8', '#1572e8'],
 			duration: 400,
 			wrpClass: 'circles-wrp',
 			textClass: 'circles-text',
@@ -356,13 +359,13 @@
 		})
 
 		Circles.create({
-			id: 'circles-3',
+			id: 'circles-task-completed',
 			radius: 45,
 			value: 40,
 			maxValue: 100,
 			width: 7,
-			text: 12,
-			colors: ['#f1f1f1', '#F25961'],
+			text: parseInt(document.getElementById('task-completed').textContent) || '0',
+			colors: ['#31ce36 ', '#31ce36 '],
 			duration: 400,
 			wrpClass: 'circles-wrp',
 			textClass: 'circles-text',

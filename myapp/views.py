@@ -95,7 +95,9 @@ def user_data(request):
     usuario = request.user
     nombre_completo = usuario.first_name + ' ' + usuario.last_name
     email = usuario.email
+    id_user = usuario.id
     data_user = {
+        'id_user': id_user,
         'nombre_completo': nombre_completo,
         'email': email,
     }
@@ -108,7 +110,23 @@ def user_data(request):
 def index(request):
     title = ' !Hola, Bienvenido al Sistema de Gestion de Poryectos de Software!'
     data_user = user_data(request)
-    return render(request, 'index.html', {'title': title, 'data_user': data_user})
+    id = data_user['id_user']
+    integrante = Studentuser.objects.filter(user_id=id).first()
+    if not integrante:
+        return render(request, 'index.html', {'title': title, 'data_user': data_user})
+    project = Project.objects.get(id=integrante.project_id)
+    #print("Project ID ", project.id)
+    tasks = Task.objects.filter(project_id=project.id)
+    
+    # estadisticas tareas y recuentro de las tareas pendintes, en proceso y completadas
+    stats_task = tasks.aggregate(
+        absolutely=Count("id"),
+        earring=Count("id", filter=Q(status="Pendiente")),
+        in_progress = Count("id", filter=Q(status="En proceso")),
+        completed=Count("id", filter=Q(status="Completado")),
+    )
+    
+    return render(request, 'index.html', {'title': title, 'data_user': data_user, 'stats_task': stats_task})
 
 """Mostrar la página "Acerca de"."""
 def about(request):

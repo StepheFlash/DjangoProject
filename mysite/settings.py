@@ -30,12 +30,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+#DEBUG = 'RENDER' not in os.environ
+
+DEBUG = True
 
 # ALLOWED_HOSTS configuration
 ALLOWED_HOSTS = [
     'localhost',
     'djangoproject-production-a73a.up.railway.app',
+    '127.0.0.1'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
