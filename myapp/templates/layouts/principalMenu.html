@@ -334,7 +334,10 @@
 			value: 60,
 			maxValue: 100,
 			width: 7,
-			text: parseInt(document.getElementById('task-pending').textContent) || '0',
+			text: (function() {
+				var elem = document.getElementById('task-pending');
+				return elem ? parseInt(elem.textContent) || '0' : '0';
+			})(),
 			colors: ['#ffad46  ', '#ffad46 '],
 			duration: 400,
 			wrpClass: 'circles-wrp',
@@ -349,7 +352,10 @@
 			value: 70,
 			maxValue: 100,
 			width: 7,
-			text: parseInt(document.getElementById('task-inprogress').textContent) || '0',
+			text: (function() {
+				var elem = document.getElementById('task-inprogress');
+				return elem ? parseInt(elem.textContent) || '0' : '0';
+			})(),
 			colors: ['#1572e8', '#1572e8'],
 			duration: 400,
 			wrpClass: 'circles-wrp',
@@ -364,7 +370,10 @@
 			value: 40,
 			maxValue: 100,
 			width: 7,
-			text: parseInt(document.getElementById('task-completed').textContent) || '0',
+			text: (function() {
+				var elem = document.getElementById('task-completed');
+				return elem ? parseInt(elem.textContent) || '0' : '0';
+			})(),
 			colors: ['#31ce36 ', '#31ce36 '],
 			duration: 400,
 			wrpClass: 'circles-wrp',
@@ -376,7 +385,10 @@
 		Circles.create({
 			id: 'task-complete',
 			radius: 75,
-			value: parseInt(document.getElementById('task-complete-value').textContent) || 0,
+			value: (function() {
+				var elem = document.getElementById('task-complete-value');
+				return elem ? parseInt(elem.textContent) || 0 : 0;
+			})(),
 			maxValue: 100,
 			width: 7,
 			text: function (value) { return value + '%'; },
